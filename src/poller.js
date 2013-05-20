@@ -1,5 +1,10 @@
 (function () {
   var ajax = tddjs.namespace("ajax");
 
-  ajax.poller = {};
+  function start() {
+  }
+
+  ajax.poller = {
+    start: start
+  };
 }());
