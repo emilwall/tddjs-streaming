@@ -109,6 +109,15 @@
       this.waitForRequest(350);
 
       assert(this.xhr.send.called);
+    },
+
+    "test should set interval to 1000 unless already set to another number":
+    function () {
+      this.poller.interval = { interval: 7 };
+
+      this.poller.start();
+
+      assertEquals(1000, this.poller.interval);
     }
   });
 }());

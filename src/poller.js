@@ -7,7 +7,7 @@
     }
 
     var poller = this;
-    if (typeof poller.interval === "undefined") {
+    if (typeof poller.interval !== "number") {
       poller.interval = 1000;
     }
 
