@@ -6,6 +6,9 @@
       this.ajaxCreate = ajax.create;
       this.xhr = Object.create(fakeXMLHttpRequest);
       ajax.create = stubFn(this.xhr);
+
+      this.poller = Object.create(ajax.poller);
+      this.poller.url = "/url";
     },
 
     tearDown: function () {
@@ -36,29 +39,20 @@
     },
 
     "test start should make XHR request with URL": function () {
-      var poller = Object.create(ajax.poller);
-      poller.url = "/url";
-
-      poller.start();
+      this.poller.start();
 
       assert(this.xhr.open.called);
-      assertEquals(poller.url, this.xhr.open.args[1]);
+      assertEquals(this.poller.url, this.xhr.open.args[1]);
     },
 
     "test start should call send XHR request": function () {
-      var poller = Object.create(ajax.poller);
-      poller.url = "/url";
-
-      poller.start();
+      this.poller.start();
 
       assert(this.xhr.send.called);
     },
 
     "test start should make async GET request": function () {
-      var poller = Object.create(ajax.poller);
-      poller.url = "/url";
-
-      poller.start();
+      this.poller.start();
 
       var actualArgs = [].slice.call(this.xhr.open.args);
       assertEquals("GET", actualArgs[0]);
@@ -67,10 +61,7 @@
 
     "test should schedule new request when complete":
     function () {
-      var poller = Object.create(ajax.poller);
-      poller.url = "/url";
-
-      poller.start();
+      this.poller.start();
       this.resetXhr();
       Clock.tick(1000);
 
@@ -79,10 +70,7 @@
 
     "test should delay before sending new request when complete":
     function () {
-      var poller = Object.create(ajax.poller);
-      poller.url = "/url";
-
-      poller.start();
+      this.poller.start();
       this.resetXhr();
       Clock.tick(1);
 
