@@ -5,6 +5,8 @@
     if (!this.url) {
       throw new TypeError("Must specify URL to poll");
     }
+
+    ajax.request(this.url);
   }
 
   ajax.poller = {
