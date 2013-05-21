@@ -38,6 +38,26 @@
 
       assert(this.xhr.open.called);
       assertEquals(poller.url, this.xhr.open.args[1]);
-    }
+    },
+
+    "test start should call send XHR request": function () {
+      var poller = Object.create(ajax.poller);
+      poller.url = "/url";
+
+      poller.start();
+
+      assert(this.xhr.send.called);
+    },
+
+    "test start should make async GET request": function () {
+      var poller = Object.create(ajax.poller);
+      poller.url = "/url";
+
+      poller.start();
+
+      var actualArgs = [].slice.call(this.xhr.open.args);
+      assertEquals("GET", actualArgs[0]);
+      assertTrue(actualArgs[2]);
+    },
   });
 }());
