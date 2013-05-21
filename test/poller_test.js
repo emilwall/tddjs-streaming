@@ -13,6 +13,7 @@
 
     tearDown: function () {
       ajax.create = this.ajaxCreate;
+      Clock.reset();
     },
 
     resetXhr: function () {
