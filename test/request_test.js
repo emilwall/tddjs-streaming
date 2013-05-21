@@ -6,10 +6,12 @@
   function forceStatusAndReadyState(xhr, status, rs) {
     var success = stubFn();
     var failure = stubFn();
+    var complete = stubFn();
 
     ajax.get("/url", {
       success: success,
-      failure: failure
+      failure: failure,
+      complete: complete
     });
 
     xhr.status = status;
@@ -17,7 +19,8 @@
 
     return {
       success: success.called,
-      failure: failure.called
+      failure: failure.called,
+      complete: complete.called
     };
   }
 
@@ -250,7 +253,7 @@
       assertNoException(function () {
         this.xhr.status = 200;
         this.xhr.readyStateChange(4);
-      }.bind(this)); 
+      }.bind(this));
     },
 
     "test should pass null as argument to send": function () {
@@ -325,7 +328,28 @@
       var request = forceStatusAndReadyState(this.xhr, 200, 4);
 
       assertFalse(request.failure);
-    }
+    },
+
+    "test should call complete handler for status 200":
+      function () {
+        var request = forceStatusAndReadyState(this.xhr, 200, 4);
+
+        assert(request.complete);
+      },
+
+      "test should call complete handler for status 400":
+      function () {
+        var request = forceStatusAndReadyState(this.xhr, 400, 4);
+
+        assert(request.complete);
+      },
+
+      "test should call complete handler for status 0":
+      function () {
+        var request = forceStatusAndReadyState(this.xhr, 0, 4);
+
+        assert(request.complete);
+      }
   });
 
   TestCase("PostRequestTest", {
