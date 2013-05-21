@@ -76,6 +76,15 @@
       Clock.tick(1);
 
       assertFalse(this.xhr.send.called);
+    },
+
+    "test should not make new request until 1000ms passed":
+    function () {
+      this.poller.start();
+      this.resetXhr();
+      Clock.tick(999);
+
+      assertFalse(this.xhr.send.called);
     }
   });
 }());
