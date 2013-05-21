@@ -7,12 +7,15 @@
     }
 
     var poller = this;
+    if (typeof poller.interval === "undefined") {
+      poller.interval = 1000;
+    }
 
     ajax.request(this.url, {
       complete: function () {
         setTimeout(function () {
           poller.start();
-        }, 1000);
+        }, poller.interval);
       }
     });
   }

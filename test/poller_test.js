@@ -93,6 +93,14 @@
       this.waitForRequest(349);
 
       assertFalse(this.xhr.send.called);
+    },
+
+    "test should not fire event before long interval expiration":
+    function () {
+      this.poller.interval = 2000;
+      this.waitForRequest(1999);
+
+      assertFalse(this.xhr.send.called);
     }
   });
 }());
