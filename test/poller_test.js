@@ -75,6 +75,19 @@
       assert(this.xhr.send.called); // the poller needs to fire a new request
                                     // asynchronously after the original
                                     // request finished
+    },
+
+    "test should delay before sending new request when complete":
+    function () {
+      var poller = Object.create(ajax.poller);
+      poller.url = "/url";
+
+      poller.start();
+      this.xhr.complete();
+      this.xhr.send = stubFn();
+      Clock.tick(1);
+
+      assertFalse(this.xhr.send.called);
     }
   });
 }());
