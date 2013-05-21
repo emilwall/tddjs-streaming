@@ -6,7 +6,15 @@
       throw new TypeError("Must specify URL to poll");
     }
 
-    ajax.request(this.url);
+    var poller = this;
+
+    ajax.request(this.url, {
+      complete: function () {
+        setTimeout(function () {
+          poller.start();
+        }, 1000);
+      }
+    });
   }
 
   ajax.poller = {
