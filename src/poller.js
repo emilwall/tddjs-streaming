@@ -16,7 +16,9 @@
         setTimeout(function () {
           poller.start();
         }, poller.interval);
-      }
+      },
+
+      headers: poller.headers
     });
   }
 
