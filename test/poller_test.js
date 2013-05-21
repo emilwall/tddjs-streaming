@@ -113,7 +113,7 @@
 
     "test should set interval to 1000 unless already set to another number":
     function () {
-      this.poller.interval = { interval: 7 };
+      this.poller.interval = "Whatever";
 
       this.poller.start();
 
