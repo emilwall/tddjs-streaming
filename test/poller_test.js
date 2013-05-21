@@ -12,6 +12,11 @@
       ajax.create = this.ajaxCreate;
     },
 
+    resetXhr: function () {
+      this.xhr.complete();
+      this.xhr.send = stubFn();
+    },
+
     "test should be object": function () {
       assertObject(ajax.poller);
     },
@@ -66,15 +71,10 @@
       poller.url = "/url";
 
       poller.start();
-      this.xhr.complete();
-      this.xhr.send = stubFn(); // the ajax.create stub will be called once
-                                // for each request, but it always returns
-                                // the same instance
+      this.resetXhr();
       Clock.tick(1000);
 
-      assert(this.xhr.send.called); // the poller needs to fire a new request
-                                    // asynchronously after the original
-                                    // request finished
+      assert(this.xhr.send.called);
     },
 
     "test should delay before sending new request when complete":
@@ -83,8 +83,7 @@
       poller.url = "/url";
 
       poller.start();
-      this.xhr.complete();
-      this.xhr.send = stubFn();
+      this.resetXhr();
       Clock.tick(1);
 
       assertFalse(this.xhr.send.called);
