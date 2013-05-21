@@ -18,7 +18,8 @@
         }, poller.interval);
       },
 
-      headers: poller.headers
+      headers: poller.headers,
+      success: poller.success
     });
   }
 

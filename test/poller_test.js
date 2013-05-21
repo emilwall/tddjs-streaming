@@ -132,6 +132,15 @@
       var expected = this.poller.headers;
       assertEquals(expected["Header-One"], actual["Header-One"]);
       assertEquals(expected["Header-Two"], actual["Header-Two"]);
+    },
+
+    "test should pass success callback": function () {
+      this.poller.success = stubFn();
+
+      this.poller.start();
+      this.xhr.complete();
+
+      assert(this.poller.success.called);
     }
   });
 }());
