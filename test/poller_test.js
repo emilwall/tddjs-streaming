@@ -21,6 +21,12 @@
       this.xhr.send = stubFn();
     },
 
+    waitForRequest: function (millis) {
+      this.poller.start();
+      this.resetXhr();
+      Clock.tick(millis);
+    },
+
     "test should be object": function () {
       assertObject(ajax.poller);
     },
@@ -62,27 +68,21 @@
 
     "test should schedule new request when complete":
     function () {
-      this.poller.start();
-      this.resetXhr();
-      Clock.tick(1000);
+      this.waitForRequest(1000);
 
       assert(this.xhr.send.called);
     },
 
     "test should delay before sending new request when complete":
     function () {
-      this.poller.start();
-      this.resetXhr();
-      Clock.tick(1);
+      this.waitForRequest(1);
 
       assertFalse(this.xhr.send.called);
     },
 
     "test should not make new request until 1000ms passed":
     function () {
-      this.poller.start();
-      this.resetXhr();
-      Clock.tick(999);
+      this.waitForRequest(999);
 
       assertFalse(this.xhr.send.called);
     }
