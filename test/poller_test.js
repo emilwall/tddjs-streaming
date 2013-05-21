@@ -141,6 +141,15 @@
       this.xhr.complete();
 
       assert(this.poller.success.called);
+    },
+
+    "test should pass failure callback": function () {
+      this.poller.failure = stubFn();
+
+      this.poller.start();
+      this.xhr.complete(400);
+
+      assert(this.poller.failure.called);
     }
   });
 }());
