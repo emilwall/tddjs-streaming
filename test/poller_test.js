@@ -101,6 +101,14 @@
       this.waitForRequest(1999);
 
       assertFalse(this.xhr.send.called);
+    },
+
+    "test should fire event at interval expiration":
+    function () {
+      this.poller.interval = 350;
+      this.waitForRequest(350);
+
+      assert(this.xhr.send.called);
     }
   });
 }());
