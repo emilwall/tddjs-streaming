@@ -77,6 +77,13 @@ tddjs.noop = function () {};
                   "X-Requested-With", "XMLHttpRequest");
   }
 
+  function setCallbacks(options) {
+    if (options.transport.readyState == 4) {
+      requestComplete(options);
+      options.transport.onreadystatechange = tddjs.noop;
+    }
+  }
+
   function abortAfterTimeout(options) {
     var timeout = setTimeout(function () {
       options.transport.abort();
@@ -110,10 +117,7 @@ tddjs.noop = function () {};
     setHeaders(options);
 
     transport.onreadystatechange = function () {
-      if (transport.readyState == 4) {
-        requestComplete(options);
-        transport.onreadystatechange = tddjs.noop;
-      }
+      setCallbacks(options);
     };
 
     abortAfterTimeout(options);
