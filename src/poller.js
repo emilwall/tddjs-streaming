@@ -1,6 +1,8 @@
 (function () {
   var ajax = tddjs.namespace("ajax");
 
+  var pollTimeout;
+
   function start() {
     if (!this.url) {
       throw new TypeError("Must specify URL to poll");
@@ -13,7 +15,7 @@
 
     ajax.request(this.url, {
       complete: function () {
-        setTimeout(function () {
+        pollTimeout = setTimeout(function () {
           poller.start();
         }, poller.interval);
 
@@ -30,6 +32,6 @@
 
   ajax.poller = {
     start: start,
-    stop: function () {}
+    stop: function () { clearTimeout(pollTimeout); }
   };
 }());

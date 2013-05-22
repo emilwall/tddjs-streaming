@@ -180,6 +180,14 @@
       Clock.tick(500);
 
       assert(this.xhr.send.called);
+    },
+
+    "test should not send more requests after stop has been called": function () {
+      waitForRequest.call(this, 500);
+      this.poller.stop();
+      Clock.tick(500);
+
+      assertFalse(this.xhr.send.called);
     }
   });
 }());
