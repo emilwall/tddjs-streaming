@@ -1,20 +1,24 @@
 (function () {
   var ajax = tddjs.ajax;
 
+  var setUp = function () {
+    this.ajaxCreate = ajax.create;
+    this.xhr = Object.create(fakeXMLHttpRequest);
+    ajax.create = stubFn(this.xhr);
+
+    this.poller = Object.create(ajax.poller);
+    this.poller.url = "/url";
+  };
+
+  var tearDown = function () {
+    ajax.create = this.ajaxCreate;
+    Clock.reset();
+  };
+
   TestCase("PollerTest", {
-    setUp: function () {
-      this.ajaxCreate = ajax.create;
-      this.xhr = Object.create(fakeXMLHttpRequest);
-      ajax.create = stubFn(this.xhr);
+    setUp: setUp,
 
-      this.poller = Object.create(ajax.poller);
-      this.poller.url = "/url";
-    },
-
-    tearDown: function () {
-      ajax.create = this.ajaxCreate;
-      Clock.reset();
-    },
+    tearDown: tearDown,
 
     resetXhr: function () {
       this.xhr.complete();
@@ -159,7 +163,13 @@
       this.xhr.complete();
 
       assert(this.poller.complete.called);
-    },
+    }
+  });
+
+  TestCase("PollerTimeoutTest", {
+    setUp: setUp,
+
+    tearDown: tearDown,
 
     "test should define stop method": function () {
       assertFunction(this.poller.stop);
