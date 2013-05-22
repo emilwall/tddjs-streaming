@@ -100,6 +100,19 @@ tddjs.noop = function () {};
       }
     };
 
+    var timeout = setTimeout(function () {
+      transport.abort();
+    }, 10000);
+
+    var prevComplete = options.complete;
+    if (typeof options.complete !== "function") {
+      prevComplete = function () {};
+    }
+    options.complete = function (transport) {
+      clearTimeout(timeout);
+      prevComplete(transport);
+    };
+
     transport.send(options.data);
   }
 

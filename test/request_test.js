@@ -129,7 +129,10 @@
       };
     },
 
-    tearDown: tearDown,
+    tearDown: function () {
+      tearDown.call(this);
+      Clock.reset();
+    },
 
     "test should use default Content-Type header for POST": function () {
       ajax.request("/url", this.options);
@@ -224,6 +227,13 @@
       var accept = "*/*";
 
       assertEquals(accept, this.xhr.headers[name]);
+    },
+
+    "test should timeout after 10 s": function () {
+      ajax.request("/url");
+      Clock.tick(10000);
+
+      assert(this.xhr.abort.called);
     }
   });
 
