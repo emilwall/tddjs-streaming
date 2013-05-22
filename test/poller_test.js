@@ -150,6 +150,15 @@
       this.xhr.complete(400);
 
       assert(this.poller.failure.called);
+    },
+
+    "test should pass complete callback": function () {
+      this.poller.complete = stubFn();
+
+      this.poller.start();
+      this.xhr.complete();
+
+      assert(this.poller.complete.called);
     }
   });
 }());

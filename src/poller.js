@@ -16,6 +16,10 @@
         setTimeout(function () {
           poller.start();
         }, poller.interval);
+
+        if (typeof poller.complete == "function") {
+          poller.complete();
+        }
       },
 
       headers: poller.headers,
