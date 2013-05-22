@@ -148,7 +148,7 @@
       this.options.timeout = 500;
 
       ajax.request("/url", this.options);
-      Clock.tick(500);
+      Clock.tick(this.options.timeout);
 
       assert(this.xhr.abort.called);
     },
@@ -157,7 +157,7 @@
       this.options.timeout = 500;
 
       ajax.request("/url", this.options);
-      Clock.tick(499);
+      Clock.tick(this.options.timeout - 1);
 
       assertFalse(this.xhr.abort.called);
     }
