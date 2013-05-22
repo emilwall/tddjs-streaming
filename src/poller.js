@@ -34,4 +34,9 @@
     start: start,
     stop: function () { clearTimeout(pollTimeout); }
   };
+
+  ajax.poll = function () {
+    var poller = Object.create(ajax.poller);
+    poller.start();
+  }
 }());

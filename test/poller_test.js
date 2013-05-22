@@ -190,4 +190,26 @@
       assertFalse(this.xhr.send.called);
     }
   });
+
+  TestCase("PollTest", {
+    setUp: function () {
+      this.request = ajax.request;
+      this.create = Object.create;
+      ajax.request = stubFn();
+    },
+
+    tearDown: function () {
+      ajax.request = this.request;
+      Object.create = this.create;
+    },
+
+    "test should call start on poller object": function () {
+      var poller = { start: stubFn() };
+      Object.create = stubFn(poller);
+
+      ajax.poll("/url");
+
+      assert(poller.start.called);
+    }
+  });
 }());
