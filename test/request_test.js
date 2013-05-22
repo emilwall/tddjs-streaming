@@ -118,6 +118,31 @@
     }
   });
 
+  TestCase("RequestTimeoutTest", {
+    setUp: function () {
+      setUp.call(this);
+      this.options = {
+        method: "POST",
+        data: {
+          field: "value"
+        }
+      };
+      this.xhr.abort = stubFn();
+    },
+
+    tearDown: function () {
+      tearDown.call(this);
+      Clock.reset();
+    },
+
+    "test should timeout after 10 s": function () {
+      ajax.request("/url");
+      Clock.tick(10000);
+
+      assert(this.xhr.abort.called);
+    }
+  });
+
   TestCase("RequestHeadersTest", {
     setUp: function () {
       setUp.call(this);
@@ -131,7 +156,6 @@
 
     tearDown: function () {
       tearDown.call(this);
-      Clock.reset();
     },
 
     "test should use default Content-Type header for POST": function () {
@@ -227,13 +251,6 @@
       var accept = "*/*";
 
       assertEquals(accept, this.xhr.headers[name]);
-    },
-
-    "test should timeout after 10 s": function () {
-      ajax.request("/url");
-      Clock.tick(10000);
-
-      assert(this.xhr.abort.called);
     }
   });
 
