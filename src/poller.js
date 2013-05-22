@@ -38,9 +38,7 @@
   ajax.poll = function (url, options) {
     var poller = Object.create(ajax.poller);
     poller.url = url;
-    for (var prop in options || []) {
-      poller[prop] = options[prop];
-    }
+    tddjs.extend(poller, options);
     poller.start();
     return poller;
   }
