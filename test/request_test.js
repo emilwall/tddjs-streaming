@@ -136,14 +136,14 @@
     },
 
     "test should timeout after 10 s": function () {
-      ajax.request("/url");
+      ajax.request("/url", this.options);
       Clock.tick(10000);
 
       assert(this.xhr.abort.called);
     },
 
     "test should not timeout before 10 s": function () {
-      ajax.request("/url");
+      ajax.request("/url", this.options);
       Clock.tick(9999);
 
       assertFalse(this.xhr.abort.called);
