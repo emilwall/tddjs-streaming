@@ -29,6 +29,7 @@
   }
 
   ajax.poller = {
-    start: start
+    start: start,
+    stop: function () {}
   };
 }());

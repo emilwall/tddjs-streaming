@@ -159,6 +159,10 @@
       this.xhr.complete();
 
       assert(this.poller.complete.called);
+    },
+
+    "test should define stop method": function () {
+      assertFunction(this.poller.stop);
     }
   });
 }());
