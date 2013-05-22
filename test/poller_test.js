@@ -210,6 +210,13 @@
       ajax.poll("/url");
 
       assert(poller.start.called);
+    },
+
+    "test should set url property on poller object":
+    function () {
+      var poller = ajax.poll("/url");
+
+      assertSame("/url", poller.url);
     }
   });
 }());

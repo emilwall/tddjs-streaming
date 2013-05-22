@@ -35,8 +35,10 @@
     stop: function () { clearTimeout(pollTimeout); }
   };
 
-  ajax.poll = function () {
+  ajax.poll = function (url) {
     var poller = Object.create(ajax.poller);
+    poller.url = url;
     poller.start();
+    return poller;
   }
 }());
