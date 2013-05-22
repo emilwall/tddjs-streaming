@@ -77,6 +77,22 @@ tddjs.noop = function () {};
                   "X-Requested-With", "XMLHttpRequest");
   }
 
+  function abortAfterTimeout(options) {
+    var timeout = setTimeout(function () {
+      options.transport.abort();
+    }, 10000);
+
+    var prevComplete = options.complete;
+    if (typeof options.complete !== "function") {
+      prevComplete = function () {};
+    }
+
+    options.complete = function (transport) {
+      clearTimeout(timeout);
+      prevComplete(transport);
+    };
+  }
+
   // Public methods
 
   function request(url, options) {
@@ -100,18 +116,7 @@ tddjs.noop = function () {};
       }
     };
 
-    var timeout = setTimeout(function () {
-      transport.abort();
-    }, 10000);
-
-    var prevComplete = options.complete;
-    if (typeof options.complete !== "function") {
-      prevComplete = function () {};
-    }
-    options.complete = function (transport) {
-      clearTimeout(timeout);
-      prevComplete(transport);
-    };
+    abortAfterTimeout(options);
 
     transport.send(options.data);
   }
