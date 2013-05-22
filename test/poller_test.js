@@ -217,6 +217,43 @@
       var poller = ajax.poll("/url");
 
       assertSame("/url", poller.url);
+    },
+
+    "test should set headers property on poller object": function () {
+      var options = { headers: {} };
+
+      var poller = ajax.poll("/url", options);
+
+      assertSame(options.headers, poller.headers);
+    },
+
+    "test should set success callback on poller object": function () {
+      var options = { success: function () {} };
+
+      var poller = ajax.poll("/url", options);
+
+      assertSame(options.success, poller.success);
+    },
+
+    "test should set failure callback on poller object": function () {
+      var options = { failure: function () {} };
+      var poller = ajax.poll("/url", options);
+
+      assertSame(options.failure, poller.failure);
+    },
+
+    "test should set complete callback on poller object": function () {
+      var options = { complete: function () {} };
+      var poller = ajax.poll("/url", options);
+
+      assertSame(options.complete, poller.complete);
+    },
+
+    "test should set interval on poller object": function () {
+      var options = { interval: 230 };
+      var poller = ajax.poll("/url", options);
+
+      assertSame(options.interval, poller.interval);
     }
   });
 }());
