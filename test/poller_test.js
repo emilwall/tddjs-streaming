@@ -15,21 +15,21 @@
     Clock.reset();
   };
 
+  var resetXhr = function () {
+    this.xhr.complete();
+    this.xhr.send = stubFn();
+  };
+
+  var waitForRequest = function (millis) {
+    this.poller.start();
+    resetXhr.call(this);
+    Clock.tick(millis);
+  };
+
   TestCase("PollerTest", {
     setUp: setUp,
 
     tearDown: tearDown,
-
-    resetXhr: function () {
-      this.xhr.complete();
-      this.xhr.send = stubFn();
-    },
-
-    waitForRequest: function (millis) {
-      this.poller.start();
-      this.resetXhr();
-      Clock.tick(millis);
-    },
 
     "test should be object": function () {
       assertObject(ajax.poller);
@@ -72,21 +72,21 @@
 
     "test should schedule new request when complete":
     function () {
-      this.waitForRequest(1000);
+      waitForRequest.call(this, 1000);
 
       assert(this.xhr.send.called);
     },
 
     "test should delay before sending new request when complete":
     function () {
-      this.waitForRequest(1);
+      waitForRequest.call(this, 1);
 
       assertFalse(this.xhr.send.called);
     },
 
     "test should not make new request until 1000ms passed":
     function () {
-      this.waitForRequest(999);
+      waitForRequest.call(this, 999);
 
       assertFalse(this.xhr.send.called);
     },
@@ -94,7 +94,7 @@
     "test should not fire event before interval expiration":
     function () {
       this.poller.interval = 350;
-      this.waitForRequest(349);
+      waitForRequest.call(this, 349);
 
       assertFalse(this.xhr.send.called);
     },
@@ -102,7 +102,7 @@
     "test should not fire event before long interval expiration":
     function () {
       this.poller.interval = 2000;
-      this.waitForRequest(1999);
+      waitForRequest.call(this, 1999);
 
       assertFalse(this.xhr.send.called);
     },
@@ -110,7 +110,7 @@
     "test should fire event at interval expiration":
     function () {
       this.poller.interval = 350;
-      this.waitForRequest(350);
+      waitForRequest.call(this, 350);
 
       assert(this.xhr.send.called);
     },
