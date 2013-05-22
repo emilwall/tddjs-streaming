@@ -147,6 +147,15 @@
       Clock.tick(9999);
 
       assertFalse(this.xhr.abort.called);
+    },
+
+    "test should abort after specified timeout": function () {
+      this.options.timeout = 500;
+
+      ajax.request("/url", this.options);
+      Clock.tick(500);
+
+      assert(this.xhr.abort.called);
     }
   });
 

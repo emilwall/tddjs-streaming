@@ -80,7 +80,7 @@ tddjs.noop = function () {};
   function abortAfterTimeout(options) {
     var timeout = setTimeout(function () {
       options.transport.abort();
-    }, 10000);
+    }, options.timeout || 10000);
 
     var prevComplete = options.complete;
     if (typeof options.complete !== "function") {
