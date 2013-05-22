@@ -173,6 +173,13 @@
 
     "test should define stop method": function () {
       assertFunction(this.poller.stop);
+    },
+
+    "test should send more requests unless stop has been called": function () {
+      waitForRequest.call(this, 500);
+      Clock.tick(500);
+
+      assert(this.xhr.send.called);
     }
   });
 }());
