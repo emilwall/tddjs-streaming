@@ -121,12 +121,7 @@
   TestCase("RequestTimeoutTest", {
     setUp: function () {
       setUp.call(this);
-      this.options = {
-        method: "POST",
-        data: {
-          field: "value"
-        }
-      };
+      this.options = {};
       this.xhr.abort = stubFn();
     },
 
@@ -136,14 +131,14 @@
     },
 
     "test should timeout after 10 s": function () {
-      ajax.request("/url", this.options);
+      ajax.request("/url");
       Clock.tick(10000);
 
       assert(this.xhr.abort.called);
     },
 
     "test should not timeout before 10 s": function () {
-      ajax.request("/url", this.options);
+      ajax.request("/url");
       Clock.tick(9999);
 
       assertFalse(this.xhr.abort.called);
