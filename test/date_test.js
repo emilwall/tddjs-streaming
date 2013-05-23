@@ -14,21 +14,21 @@
       assertFunction(stubDateConstructor);
     },
 
-    "test should make Date constructor return same object twice": function () {
-      var date1 = new Date();
-      stubDateConstructor(date1);
-      var date2 = new Date();
+    "test should temporarily stub Date constructor": function () {
+      var date = new Date();
+      stubDateConstructor(date);
+      var dateCopy = new Date();
 
-      assertSame(date1, date2);
+      assertSame(date, dateCopy);
     },
 
-    "test should return new Date every other time": function () {
-      var date1 = new Date();
-      stubDateConstructor(date1);
-      var date2 = new Date();
-      var date3 = new Date();
+    "test should restore Date contructor": function () {
+      var date = new Date();
+      stubDateConstructor(date);
+      var dateCopy = new Date();
+      var newDate = new Date();
 
-      assertNotSame(date1, date3);
+      assertNotSame(date, newDate);
     },
   });
 }());
